@@ -12,7 +12,7 @@
 *.idea
 
 # virtual environment
-venv/*
+*venv/*
 
 # tokens file
 tokens.txt
