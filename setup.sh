@@ -2,6 +2,10 @@
 
 tokenslocation=$PWD/tokens.txt
 
+# create virtual environment
+python3.7 -m venv venv
+source ./venv/bin/activate
+
 # install requirements
 python3.7 -m pip3 install -r requirements.txt
 
