@@ -11,6 +11,9 @@
 # intellij
 *.idea
 
+# virtual environment
+venv/*
+
 # tokens file
 tokens.txt
 
