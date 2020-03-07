@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3.7
 import config
 
-# run every 8 hours
+# run every 4 hours
 
 def get_recent_tweet(client):
     max_likes = None
@@ -19,12 +19,15 @@ def update_pin(client, tweet, output_file):
     config.save_pickle(output_file, tweet.id)
     return
 
+def lambda_handler(event, context):
+    main()
+    return
 
 def main():
     
     client = config.login()
 
-    most_liked_file = ".most_liked_tweet.pickle"
+    most_liked_file = "/tmp/.most_liked_tweet.pickle"
     most_liked_tweet_id = config.load_pickle(most_liked_file, None)
 
     recent_liked = get_recent_tweet(client)

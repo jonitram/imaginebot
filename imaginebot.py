@@ -15,9 +15,13 @@ def tweeter(client, word):
     tweet = "imagine " + word
     return client.update_status(tweet)
 
+def lambda_handler(event, context):
+    main()
+    return
+
 def main():
 
-    index_file = ".dictionary_index.pickle"
+    index_file = "/tmp/.dictionary_index.pickle"
 
     dictionary_index = config.load_pickle(index_file, 0)
     client = config.login()
