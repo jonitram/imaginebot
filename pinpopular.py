@@ -1,4 +1,4 @@
-#!/usr/local/bin/python3.8
+#!/usr/local/bin/python3.7
 import config
 
 # run every 8 hours
