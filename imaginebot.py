@@ -1,24 +1,10 @@
-#!/usr/local/bin/python3.7
+#!/usr/local/bin/python3.8
 import config
 import pickle
 
-index_file = ".dictionary_index.pickle"
-
-dictionary_file = "words.txt"
 # total number of words is 370103
-
-def load_index():
-    try:
-        dictionary_index = pickle.load( open( index_file, "rb" ) )
-    except (OSError, IOError):
-        dictionary_index = 0
-    return dictionary_index
-
-def save_index(dictionary_index):
-    pickle.dump( dictionary_index, open( index_file, "wb" ) )
-    return
-
 def load_word(dictionary_index):
+    dictionary_file = "words.txt"
     with open(dictionary_file) as fp:
         for i, line in enumerate(fp):
             if i == dictionary_index:
@@ -27,32 +13,44 @@ def load_word(dictionary_index):
 
 def tweeter(client, word):
     tweet = "imagine " + word
-    client.update_status(tweet)
-
-    return
+    return client.update_status(tweet)
 
 def main():
 
-    dictionary_index = load_index()
+    index_file = ".dictionary_index.pickle"
+
+    dictionary_index = config.load_pickle(index_file, 0)
     client = config.login()
 
     try:
         word = load_word(dictionary_index)
-    except UnboundLocalError:
+    except UnboundLocalError: # out of bounds
         word = None
     
     if word:
-
-        tweeter(client, word)
+        tweet = tweeter(client, word)
+        # like the tweet
+        client.create_favorite(tweet.id)
 
         dictionary_index += 1
-        save_index(dictionary_index)
+        config.save_pickle(index_file, dictionary_index)
 
         return
 
     else:
-        # dont increase dictionary_index
-        # bot is done
+        # last message
+        if dictionary_index == 370103:
+            tweet_text = "imagine tweeting every word in the english language for a decade"
+            tweet = client.update_status(tweet_text)
+
+            client.create_favorite(tweet.id)
+
+            dictionary_index += 1
+            config.save_pickle(index_file, dictionary_index)
+        else:
+            personal_account_id = config.os.getenv("PERSONAL_ACCOUNT_ID")
+            dm = "The decade's up!"
+            client.send_direct_message(personal_account_id, dm)
         return
 
 if __name__ == "__main__":
