@@ -12,8 +12,12 @@ def load_word(dictionary_index):
     return word
 
 def tweeter(client, word):
-    tweet = "imagine " + word
-    return client.update_status(tweet)
+    text = "imagine " + word
+    try:
+        tweet = client.update_status(text)
+    except config.tweepy.TweepError:
+        return None
+    return tweet
 
 def lambda_handler(event, context):
     main()
@@ -33,8 +37,9 @@ def main():
     
     if word:
         tweet = tweeter(client, word)
-        # like the tweet
-        client.create_favorite(tweet.id)
+        if tweet:
+            # like the tweet
+            client.create_favorite(tweet.id)
 
         dictionary_index += 1
         config.save_pickle(index_file, dictionary_index)
