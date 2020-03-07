@@ -48,7 +48,7 @@ def main():
             dictionary_index += 1
             config.save_pickle(index_file, dictionary_index)
         else:
-            personal_account_id = config.os.getenv("PERSONAL_ACCOUNT_ID")
+            personal_account_id = int(config.os.getenv("PERSONAL_ACCOUNT_ID"))
             dm = "The decade's up!"
             client.send_direct_message(personal_account_id, dm)
         return

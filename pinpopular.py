@@ -13,7 +13,7 @@ def get_recent_tweet(client):
     return max_likes
 
 def update_pin(client, tweet, output_file):
-    personal_account_id = config.os.getenv("PERSONAL_ACCOUNT_ID")
+    personal_account_id = int(config.os.getenv("PERSONAL_ACCOUNT_ID"))
     status_update = "New most liked tweet: \"" + tweet.text + "\" with: " + str(tweet.favorite_count) + " likes"
     client.send_direct_message(personal_account_id, status_update)
     config.save_pickle(output_file, tweet.id)
