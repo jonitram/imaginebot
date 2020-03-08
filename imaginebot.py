@@ -1,6 +1,5 @@
 #!/usr/local/bin/python3.7
 import config
-import pickle
 
 # total number of words is 370103
 def load_word(dictionary_index):
@@ -11,13 +10,14 @@ def load_word(dictionary_index):
                 word = line.strip()
     return word
 
-def tweeter(client, word):
-    text = "imagine " + word
+def tweeter(client, text):
     try:
         tweet = client.update_status(text)
     except config.tweepy.TweepError:
         return None
-    return tweet
+    else:
+        client.create_favorite(tweet.id)
+    return
 
 def lambda_handler(event, context):
     main()
@@ -25,10 +25,8 @@ def lambda_handler(event, context):
 
 def main():
 
-    index_file = "/tmp/.dictionary_index.pickle"
-
-    dictionary_index = config.load_pickle(index_file, 0)
     client = config.login()
+    dictionary_index = client.me().favourites_count
 
     try:
         word = load_word(dictionary_index)
@@ -36,26 +34,15 @@ def main():
         word = None
     
     if word:
-        tweet = tweeter(client, word)
-        if tweet:
-            # like the tweet
-            client.create_favorite(tweet.id)
-
-        dictionary_index += 1
-        config.save_pickle(index_file, dictionary_index)
-
+        tweet_text = "imagine " + word
+        tweeter(client, tweet_text)
         return
 
     else:
         # last message
         if dictionary_index == 370103:
             tweet_text = "imagine tweeting every word in the english language for a decade"
-            tweet = client.update_status(tweet_text)
-
-            client.create_favorite(tweet.id)
-
-            dictionary_index += 1
-            config.save_pickle(index_file, dictionary_index)
+            tweeter(client, tweet_text)
         else:
             personal_account_id = int(config.os.getenv("PERSONAL_ACCOUNT_ID"))
             dm = "The decade's up!"
