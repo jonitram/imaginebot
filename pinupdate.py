@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3.7
 import config
 
-# run every 4 hours
+# run once a day
 
 def get_recent_tweet(client):
     max_likes = None
@@ -12,11 +12,15 @@ def get_recent_tweet(client):
             max_likes = tweet
     return max_likes
 
+def get_last_tweet(client):
+    for direct_message in client.list_direct_messages():
+        if direct_message.user_id == int(config.os.getenv("PERSONAL_ACCOUNT_ID"))
+            return direct_message.id
+
 def update_pin(client, tweet, output_file):
     personal_account_id = int(config.os.getenv("PERSONAL_ACCOUNT_ID"))
     status_update = "New most liked tweet: \"" + tweet.text + "\" with: " + str(tweet.favorite_count) + " likes"
     client.send_direct_message(personal_account_id, status_update)
-    config.save_pickle(output_file, tweet.id)
     return
 
 def lambda_handler(event, context):
@@ -27,19 +31,8 @@ def main():
     
     client = config.login()
 
-    most_liked_file = "/tmp/.most_liked_tweet.pickle"
-    most_liked_tweet_id = config.load_pickle(most_liked_file, None)
-
     recent_liked = get_recent_tweet(client)
 
-    if most_liked_tweet_id != None:
-        # have a most liked tweet from before
-        if recent_liked != None:
-            # have recently liked tweet
-            if recent_liked.favorite_count > client.get_status(id=most_liked_tweet_id).favorite_count:
-                update_pin(client, recent_liked, most_liked_file)
-    elif recent_liked != None:
-        update_pin(client, recent_liked, most_liked_file)
     return
 
 if __name__ == "__main__":
