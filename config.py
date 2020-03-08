@@ -1,6 +1,5 @@
 import tweepy
 import os
-import pickle
 
 def login():
 
@@ -18,14 +17,3 @@ def login():
     except Exception as e:
         raise e
     return client
-    
-def load_pickle(input_file, default):
-    try:
-        result = pickle.load( open( input_file, "rb" ) )
-    except (OSError, IOError):
-        result = default
-    return result
-
-def save_pickle(output_file, input_value):
-    pickle.dump( input_value, open( output_file, "wb" ) )
-    return
