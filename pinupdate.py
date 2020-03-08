@@ -8,7 +8,7 @@ def get_recent_tweet(client):
     for tweet in client.user_timeline():
         if max_likes == None:
             max_likes = tweet
-        elif tweet.favorite_count >= max_likes.favorite_count:
+        elif tweet.favorite_count > max_likes.favorite_count:
             max_likes = tweet
     return max_likes
 
