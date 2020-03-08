@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3.7
 import config
 
-# total number of words is 370103
+# total number of words is 61336
 def load_word(dictionary_index):
     dictionary_file = "words.txt"
     with open(dictionary_file) as fp:
@@ -40,7 +40,7 @@ def main():
 
     else:
         # last message
-        if dictionary_index == 370103:
+        if dictionary_index == 61336:
             tweet_text = "imagine tweeting every word in the english language for a decade"
             tweeter(client, tweet_text)
         else:
