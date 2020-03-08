@@ -26,7 +26,7 @@ def lambda_handler(event, context):
 def main():
 
     client = config.login()
-    dictionary_index = client.me().statuses_count
+    dictionary_index = client.me().favourites_count
 
     try:
         word = load_word(dictionary_index)
