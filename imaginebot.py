@@ -26,6 +26,9 @@ def lambda_handler(event, context):
 def main():
 
     client = config.login()
+    # could also use this, in case i want to like things on this account
+    # dictionary_index = client.me().statuses_count
+    # but then couldn't retweet phrases that begin with "imagine" - is a tradeoff
     dictionary_index = client.me().favourites_count
 
     try:
