@@ -44,11 +44,11 @@ def main():
     else:
         # last message
         if dictionary_index == 61336:
-            tweet_text = "imagine tweeting every word in the english language for a decade"
+            tweet_text = "imagine tweeting every word in the english language for over a year"
             tweeter(client, tweet_text)
         else:
             personal_account_id = int(config.os.getenv("PERSONAL_ACCOUNT_ID"))
-            dm = "The decade's up!"
+            dm = "The year's up!"
             client.send_direct_message(personal_account_id, dm)
         return
 
