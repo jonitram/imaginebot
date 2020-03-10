@@ -44,7 +44,7 @@ def main():
     else:
         # last message
         if dictionary_index == 61336:
-            tweet_text = "imagine tweeting every word in the english language for years"
+            tweet_text = "imagine manually tweeting every word in the english language for years"
             tweeter(client, tweet_text)
         else:
             personal_account_id = int(config.os.getenv("PERSONAL_ACCOUNT_ID"))
