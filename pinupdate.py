@@ -14,7 +14,7 @@ def get_recent_tweet(client):
 
 def update_pin(client, tweet):
     personal_account_id = int(config.os.getenv("PERSONAL_ACCOUNT_ID"))
-    status_update = "Most liked tweet update: \"" + tweet.text + "\" with: " + str(tweet.favorite_count) + " likes"
+    status_update = "Most liked recent tweet update: \"" + tweet.text + "\" with: " + str(tweet.favorite_count) + " likes"
     client.send_direct_message(personal_account_id, status_update)
     return
 
